@@ -1,0 +1,46 @@
+{
+  "name": "gha-linter-lite",
+  "version": "0.1.0",
+  "description": "Small GitHub Actions workflow linter for maintainers.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "gha-linter-lite": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "check": "npm run lint && npm test && npm run build"
+  },
+  "keywords": [
+    "github-actions",
+    "workflow",
+    "linter",
+    "ci",
+    "oss"
+  ],
+  "author": "Heart619",
+  "license": "MIT",
+  "type": "commonjs",
+  "files": [
+    "dist",
+    "action.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.2",
+    "eslint": "^10.4.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.8"
+  }
+}

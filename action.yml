@@ -1,0 +1,26 @@
+name: GHA Linter Lite
+description: Small static checks for GitHub Actions workflow maintenance risks.
+author: Heart619
+inputs:
+  path:
+    description: Repository path to scan.
+    required: false
+    default: .
+  workflows:
+    description: Workflow file or directory path relative to the repository path.
+    required: false
+    default: .github/workflows
+  format:
+    description: Output format: text, json, or markdown.
+    required: false
+    default: text
+  fail-on:
+    description: Failure threshold: warning, error, or none.
+    required: false
+    default: warning
+runs:
+  using: node20
+  main: dist/cli.js
+branding:
+  icon: check-square
+  color: gray-dark

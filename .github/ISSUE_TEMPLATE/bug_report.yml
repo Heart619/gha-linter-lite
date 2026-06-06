@@ -1,0 +1,25 @@
+name: Bug report
+description: Report an incorrect workflow finding.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow example
+      description: Paste the smallest workflow snippet that reproduces the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
