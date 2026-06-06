@@ -24,7 +24,7 @@ inputs:
     default: warning
 runs:
   using: node20
-  main: dist/cli.js
+  main: dist-action/index.js
 branding:
   icon: check-square
   color: gray-dark
