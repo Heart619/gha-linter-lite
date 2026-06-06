@@ -1,5 +1,10 @@
 # GHA Linter Lite
 
+[![CI](https://github.com/Heart619/gha-linter-lite/actions/workflows/ci.yml/badge.svg)](https://github.com/Heart619/gha-linter-lite/actions/workflows/ci.yml)
+[![Dogfood](https://github.com/Heart619/gha-linter-lite/actions/workflows/dogfood.yml/badge.svg)](https://github.com/Heart619/gha-linter-lite/actions/workflows/dogfood.yml)
+[![Release](https://img.shields.io/github/v/release/Heart619/gha-linter-lite)](https://github.com/Heart619/gha-linter-lite/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Small static checks for GitHub Actions workflow maintenance risks. It is designed for maintainers who want a fast CI guard without adopting a large policy framework.
 
 This tool complements, not replaces, full workflow validators.
@@ -45,7 +50,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: Heart619/gha-linter-lite@v0.1.0
+      - uses: Heart619/gha-linter-lite@v0.1.1
         with:
           path: .
           format: markdown

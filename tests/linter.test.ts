@@ -143,4 +143,32 @@ describe('lintWorkflows', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  test('does not require refs for local action paths', () => {
+    const root = fixture();
+    try {
+      writeFileSync(
+        join(root, '.github', 'workflows', 'dogfood.yml'),
+        [
+          'name: Dogfood',
+          'on: pull_request',
+          'permissions:',
+          '  contents: read',
+          'jobs:',
+          '  dogfood:',
+          '    runs-on: ubuntu-latest',
+          '    timeout-minutes: 10',
+          '    steps:',
+          '      - uses: actions/checkout@v4',
+          '      - uses: ./'
+        ].join('\n')
+      );
+
+      const report = lintWorkflows({ rootDir: root });
+
+      expect(report.findings).toEqual([]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
 });

@@ -54,6 +54,10 @@ export function lintWorkflowDocument(filePath: string, content: string, workflow
       }
 
       const uses = step.uses;
+      if (uses.startsWith('./') || uses.startsWith('../')) {
+        continue;
+      }
+
       if (!uses.includes('@')) {
         findings.push({
           ruleId: 'missing-action-ref',

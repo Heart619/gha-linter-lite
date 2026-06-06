@@ -1,6 +1,6 @@
 {
   "name": "gha-linter-lite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Small GitHub Actions workflow linter for maintainers.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
