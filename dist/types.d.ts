@@ -4,6 +4,7 @@ export type FailOn = 'error' | 'warning' | 'none';
 export interface LintOptions {
     rootDir: string;
     workflowsPath?: string;
+    configPath?: string;
 }
 export interface Finding {
     ruleId: string;
@@ -24,4 +25,7 @@ export interface Report {
     workflowFiles: string[];
     summary: Summary;
     findings: Finding[];
+}
+export interface LinterConfig {
+    disabledRules: string[];
 }

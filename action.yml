@@ -10,6 +10,10 @@ inputs:
     description: Workflow file or directory path relative to the repository path.
     required: false
     default: .github/workflows
+  config:
+    description: Optional config path relative to the repository path.
+    required: false
+    default: gha-linter-lite.config.json
   format:
     description: Output format: text, json, or markdown.
     required: false

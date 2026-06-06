@@ -9,7 +9,11 @@ const packageJson = JSON.parse((0, node_fs_1.readFileSync)((0, node_path_1.join)
 function run(argv, env = process.env) {
     try {
         const options = parseArgs(argv, env);
-        const report = (0, index_1.lintWorkflows)({ rootDir: options.rootDir, workflowsPath: options.workflowsPath });
+        const report = (0, index_1.lintWorkflows)({
+            rootDir: options.rootDir,
+            workflowsPath: options.workflowsPath,
+            configPath: options.configPath
+        });
         const rendered = render(report, options.format);
         if (options.output) {
             (0, node_fs_1.writeFileSync)(options.output, rendered);
@@ -31,6 +35,7 @@ function parseArgs(argv, env) {
     const options = {
         rootDir: env.INPUT_PATH || process.cwd(),
         workflowsPath: env.INPUT_WORKFLOWS || undefined,
+        configPath: env.INPUT_CONFIG || undefined,
         format: parseFormat(env.INPUT_FORMAT || 'text'),
         failOn: parseFailOn(env.INPUT_FAIL_ON || 'warning')
     };
@@ -46,6 +51,10 @@ function parseArgs(argv, env) {
         }
         if (arg === '--workflows') {
             options.workflowsPath = readRequiredValue(argv, (index += 1), '--workflows');
+            continue;
+        }
+        if (arg === '--config') {
+            options.configPath = readRequiredValue(argv, (index += 1), '--config');
             continue;
         }
         if (arg === '--format') {
@@ -106,7 +115,7 @@ function shouldFail(summary, failOn) {
 }
 function helpText() {
     return [
-        'Usage: gha-linter-lite [path] [--workflows .github/workflows] [--format text|json|markdown]',
+        'Usage: gha-linter-lite [path] [--workflows .github/workflows] [--config config.json] [--format text|json|markdown]',
         '',
         'Lightweight static checks for GitHub Actions workflow maintenance risks.',
         ''
