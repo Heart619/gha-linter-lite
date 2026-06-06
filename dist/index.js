@@ -5,6 +5,7 @@ exports.lintWorkflows = lintWorkflows;
 const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const yaml_1 = require("yaml");
+const config_1 = require("./config");
 const rules_1 = require("./rules");
 const workflow_files_1 = require("./workflow-files");
 var reporters_1 = require("./reporters");
@@ -41,14 +42,16 @@ function lintWorkflows(options) {
             });
         }
     }
+    const config = (0, config_1.readConfig)(rootDir, options.configPath);
+    const filteredFindings = (0, config_1.applyDisabledRules)(findings, config.disabledRules);
     return {
         rootDir,
         workflowFiles,
-        findings,
+        findings: filteredFindings,
         summary: {
             fileCount: workflowFiles.length,
-            warningCount: findings.filter((finding) => finding.severity === 'warning').length,
-            errorCount: findings.filter((finding) => finding.severity === 'error').length
+            warningCount: filteredFindings.filter((finding) => finding.severity === 'warning').length,
+            errorCount: filteredFindings.filter((finding) => finding.severity === 'error').length
         }
     };
 }

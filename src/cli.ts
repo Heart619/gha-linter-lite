@@ -7,6 +7,7 @@ import type { FailOn, OutputFormat } from './types';
 interface CliOptions {
   rootDir: string;
   workflowsPath?: string;
+  configPath?: string;
   format: OutputFormat;
   output?: string;
   failOn: FailOn;
@@ -19,7 +20,11 @@ const packageJson = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'
 export function run(argv: string[], env: NodeJS.ProcessEnv = process.env): number {
   try {
     const options = parseArgs(argv, env);
-    const report = lintWorkflows({ rootDir: options.rootDir, workflowsPath: options.workflowsPath });
+    const report = lintWorkflows({
+      rootDir: options.rootDir,
+      workflowsPath: options.workflowsPath,
+      configPath: options.configPath
+    });
     const rendered = render(report, options.format);
 
     if (options.output) {
@@ -43,6 +48,7 @@ function parseArgs(argv: string[], env: NodeJS.ProcessEnv): CliOptions {
   const options: CliOptions = {
     rootDir: env.INPUT_PATH || process.cwd(),
     workflowsPath: env.INPUT_WORKFLOWS || undefined,
+    configPath: env.INPUT_CONFIG || undefined,
     format: parseFormat(env.INPUT_FORMAT || 'text'),
     failOn: parseFailOn(env.INPUT_FAIL_ON || 'warning')
   };
@@ -59,6 +65,10 @@ function parseArgs(argv: string[], env: NodeJS.ProcessEnv): CliOptions {
     }
     if (arg === '--workflows') {
       options.workflowsPath = readRequiredValue(argv, (index += 1), '--workflows');
+      continue;
+    }
+    if (arg === '--config') {
+      options.configPath = readRequiredValue(argv, (index += 1), '--config');
       continue;
     }
     if (arg === '--format') {
@@ -126,7 +136,7 @@ function shouldFail(summary: ReturnType<typeof lintWorkflows>['summary'], failOn
 
 function helpText(): string {
   return [
-    'Usage: gha-linter-lite [path] [--workflows .github/workflows] [--format text|json|markdown]',
+    'Usage: gha-linter-lite [path] [--workflows .github/workflows] [--config config.json] [--format text|json|markdown]',
     '',
     'Lightweight static checks for GitHub Actions workflow maintenance risks.',
     ''

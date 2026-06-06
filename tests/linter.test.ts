@@ -112,4 +112,35 @@ describe('lintWorkflows', () => {
       rmSync(root, { recursive: true, force: true });
     }
   });
+
+  test('skips findings for rules disabled in config', () => {
+    const root = fixture();
+    try {
+      writeFileSync(
+        join(root, '.github', 'workflows', 'ci.yml'),
+        [
+          'name: CI',
+          'on: pull_request',
+          'jobs:',
+          '  test:',
+          '    runs-on: ubuntu-latest',
+          '    steps:',
+          '      - uses: actions/checkout@v4'
+        ].join('\n')
+      );
+      writeFileSync(
+        join(root, 'gha-linter-lite.config.json'),
+        JSON.stringify({ disabledRules: ['missing-job-timeout'] }, null, 2)
+      );
+
+      const report = lintWorkflows({ rootDir: root });
+
+      expect(report.summary.warningCount).toBe(1);
+      expect(report.findings.map((finding) => finding.ruleId)).toEqual([
+        'missing-workflow-permissions'
+      ]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
 });

@@ -15,6 +15,7 @@ npm install --save-dev gha-linter-lite
 ```sh
 npx gha-linter-lite .
 npx gha-linter-lite . --format json
+npx gha-linter-lite . --config gha-linter-lite.config.json
 npx gha-linter-lite . --format markdown --fail-on none
 ```
 
@@ -57,6 +58,18 @@ jobs:
 - `missing-job-timeout`: every job should set `timeout-minutes`.
 - `missing-action-ref`: every action reference should include an explicit `@ref`.
 - `floating-action-ref`: `@main`, `@master`, and `@latest` are treated as floating refs.
+
+## Config
+
+Create `gha-linter-lite.config.json` to disable selected rules:
+
+```json
+{
+  "disabledRules": [
+    "missing-job-timeout"
+  ]
+}
+```
 
 ## Output Formats
 

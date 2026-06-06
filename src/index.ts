@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
+import { applyDisabledRules, readConfig } from './config';
 import { lintWorkflowDocument } from './rules';
 import type { Finding, LintOptions, Report } from './types';
 import { findWorkflowFiles } from './workflow-files';
@@ -40,14 +41,17 @@ export function lintWorkflows(options: LintOptions): Report {
     }
   }
 
+  const config = readConfig(rootDir, options.configPath);
+  const filteredFindings = applyDisabledRules(findings, config.disabledRules);
+
   return {
     rootDir,
     workflowFiles,
-    findings,
+    findings: filteredFindings,
     summary: {
       fileCount: workflowFiles.length,
-      warningCount: findings.filter((finding) => finding.severity === 'warning').length,
-      errorCount: findings.filter((finding) => finding.severity === 'error').length
+      warningCount: filteredFindings.filter((finding) => finding.severity === 'warning').length,
+      errorCount: filteredFindings.filter((finding) => finding.severity === 'error').length
     }
   };
 }
