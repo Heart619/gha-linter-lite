@@ -15,16 +15,16 @@ inputs:
     required: false
     default: gha-linter-lite.config.json
   format:
-    description: Output format: text, json, or markdown.
+    description: "Output format: text, json, or markdown."
     required: false
     default: text
   fail-on:
-    description: Failure threshold: warning, error, or none.
+    description: "Failure threshold: warning, error, or none."
     required: false
     default: warning
 runs:
   using: node20
-  main: dist/cli.js
+  main: dist-action/index.js
 branding:
   icon: check-square
   color: gray-dark

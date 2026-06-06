@@ -1,0 +1,25 @@
+name: Dogfood
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  gha-linter-lite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint this repository with the local action
+        uses: ./
+        with:
+          path: .
+          format: markdown
+          fail-on: warning

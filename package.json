@@ -1,6 +1,6 @@
 {
   "name": "gha-linter-lite",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Small GitHub Actions workflow linter for maintainers.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -8,7 +8,7 @@
     "gha-linter-lite": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && ncc build dist/cli.js -o dist-action --target es2022",
     "lint": "eslint .",
     "test": "vitest run",
     "check": "npm run lint && npm test && npm run build"
@@ -25,6 +25,7 @@
   "type": "commonjs",
   "files": [
     "dist",
+    "dist-action",
     "action.yml",
     "README.md",
     "LICENSE"
@@ -38,6 +39,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.2",
+    "@vercel/ncc": "^0.38.4",
     "eslint": "^10.4.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.60.1",
